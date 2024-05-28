@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt-get update && upt-get -y upgrade && apt-get install -y bash coreutils uuid-runtime
+RUN apt-get update && apt-get -y upgrade && apt-get install -y coreutils
 
 WORKDIR /lab
 

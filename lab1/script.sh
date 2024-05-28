@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/bin/bash -e
 
 start_path=$(pwd)
 
 tempdir=$(mktemp -d)
 
 cleanup() {
-	rm -rf "$tempdir"
+	rm -rf "$tempdir" 
+	echo "$?"
 }
 
 trap cleanup EXIT HUP INT QUIT PIPE TERM
@@ -16,18 +17,8 @@ if [ "$#" -ne 1 ]; then
 fi
 
 code_file="$1"
-
-if [ ! -f "$code_file" ]; then
-	echo "File was not found"
-	exit	
-fi
-
-if [ ! -r "$code_file" ]; then
-	echo "File is readonly"
-	exit
-fi
    
-out_file=$(grep "Output:" $1 | cut -d ":" -f 2)
+out_file=$(grep "Otput:" $1 | cut -d ":" -f 2)
 
 if [ -z "$out_file" ]; then
 	echo "No comment in file"
@@ -38,11 +29,7 @@ cp "$code_file" "$tempdir"
 
 cd "$tempdir"
 
-if ! g++ $code_file -o $out_file ; then
-	echo "Compile error"
-	cleanup
-	exit
-fi
+g++ $code_file -o $out_file 
 
 mv -i $out_file "$start_path"
 

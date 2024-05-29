@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 startPath="/data"
-lockPath="/tmp/lockfile"
+lockPath="/data/lockfile"
 containerId=$(shuf -i 1-100000 -n 1) # generate numbers from 1 to 10e6 and pick 1
 
 findFreeFileName() {
